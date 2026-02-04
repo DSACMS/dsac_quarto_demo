@@ -1,0 +1,21 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "Quarto Demo"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: demo_base.html
+        text: Base Demo
+      - href: demo_fancy.html
+        text: Fancy Demo
+      - href: about.qmd
+        text: About
+
+format:
+  html:
+    theme: cosmo
+    toc: true

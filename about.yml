@@ -1,0 +1,58 @@
+---
+title: "About This Project"
+subtitle: "Methodology and Technical Details"
+format:
+  html:
+    toc: true
+    theme: dsac-theme.css
+---
+
+## Project Purpose
+
+This website serves as a practical demonstration of **Quarto's capabilities** for data analysis and reporting, specifically tailored for analysts working with healthcare and government data.
+
+By comparing two versions of the same Medicare enrollment analysis, you can see firsthand how Quarto's features enhance reproducibility, automation, and presentation quality.
+
+## Data Source
+
+All analyses use **Medicare monthly enrollment data** from [Data.CMS.gov](https://data.cms.gov), the official open data portal for the Centers for Medicare & Medicaid Services.
+
+This real-world dataset demonstrates how Quarto handles:
+- Large government datasets
+- Time-series analysis
+- Geographic variations
+- Reproducible reporting requirements common in healthcare analytics
+
+## Technical Implementation
+
+### Quarto Components Used
+
+#### 1. YAML Configuration
+The YAML header controls document behavior and appearance:
+- **Dynamic date**: Automatically updates to the render date
+- **Dynamic subtitle**: Can pull from parameters or calculations
+- **Code rendering defaults**: Control whether code is shown or hidden by default
+- **Output formats**: HTML, PDF, Word, presentations, and more
+
+#### 2. Code Chunks
+Analyses are written in **R** (though Quarto supports Python, Julia, and Observable):
+- Execute data processing and visualization
+- Generate tables and statistics
+- Create interactive elements
+
+#### 3. Markdown and Inline Code
+Narrative text integrates seamlessly with code results:
+- Explain methodology and findings
+- Include inline calculations (e.g., "The enrollment increased by `r growth_rate`%")
+- Format professional reports
+
+### Advanced Features Demonstrated
+
+#### Code Folding
+In the fancy demo, code is hidden by default but accessible via a "Show code" link in the upper right corner. This keeps the document clean for non-technical readers while maintaining full transparency.
+
+**Implementation:**
+```yaml
+format:
+  html:
+    code-fold: true
