@@ -3,7 +3,7 @@ project:
   output-dir: _site
 
 website:
-  title: "Quarto Demo"
+  title: "DSAC Quarto Demo"
   navbar:
     left:
       - href: index.qmd
