@@ -4,7 +4,7 @@ subtitle: "Methodology and Technical Details"
 format:
   html:
     toc: true
-    theme: dsac-theme.css
+    theme: cosmos
 ---
 
 ## Project Purpose

@@ -6,7 +6,7 @@ date: 2026-01-23
 format:
   html:
     toc: true
-    theme: dsac-theme.css
+    theme: cosmos
     code-fold: false
 ---
 
