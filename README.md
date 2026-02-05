@@ -1,9 +1,11 @@
-# dsac_quarto_demo
-Demo on how to utilize Quarto
+# DSAC Quarto Demo
 
-This repository is to demonstrate some of the benefits and features of leveraging Quarto for R/python analyses and is then published to GitHub Pages.
+Demo on how to utilize Quarto in DSAC workflow
 
-## View Live Site
+ ## About the Project 
+This repository is used to demonstrate some of the benefits and features of leveraging Quarto for R/python analyses and how it can then be published to GitHub Pages.
+
+### View Live Site
 
 - [General overview](about.html) of Quarto
 - [Slides](slides.html)
@@ -11,7 +13,7 @@ This repository is to demonstrate some of the benefits and features of leveragin
 - [Fancy demo version](demo_fancy.html) an analysis done in Quarto
 
 
-## Setup
+### Setup
 Install required packages:
 - R >= 4.0
 - Quarto >= 1.3
@@ -19,12 +21,8 @@ Install required packages:
 Download the data:
 [Download the Medicare Monthly Enrollment data](https://data.cms.gov/summary-statistics-on-beneficiary-enrollment/medicare-and-medicaid-reports/medicare-monthly-enrollment) and unzip directly into the project folder.
 
-## Rendering
+### Rendering
 Run `quarto render` to build the site locally.
-
- 
- ## About the Project 
-<!-- This should be a longer-form description of the project. It can include history, background, details, problem statements, links to design documents or other supporting materials, or any other information/context that a user or contributor might be interested in. --> 
  
  ## Policies 
  
