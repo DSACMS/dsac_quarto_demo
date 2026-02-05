@@ -1,0 +1,93 @@
+---
+title: "Leveraging Quarto"
+format:
+  revealjs:
+    css: presentation-styles.css
+    transition: slide
+    slide-number: true
+    logo: "images/DSAC-Logo-shield-fullcolor-OUTLINED.png"
+    footer: "Digital Service at CMS"
+---
+
+## Leveraging Quarto
+
+::: {.columns}
+::: {.column width="60%"}
+![](/images/quarto_allison.png)
+:::
+
+::: {.column width="40%"}
+> "Quarto provides a unified authoring framework for data science, **combining your code, its results, and your prose**. Quarto documents are fully reproducible and support dozens of output formats, like PDFs, Word files, presentations, and more."
+>
+> — * Wickham, Çetinkaya-Rundel, and Grolemund*
+:::
+:::
+
+---
+
+##
+
+![](/images/quarto_home.png)
+
+---
+
+## Why does this matter?
+
+1. Reproducible
+1. Automatable
+1. Dynamic
+1. Open Source (and language agnostic)
+
+---
+
+## Easy to go from analysis/report to polished product
+
+![](/images/quarto_side_by_side.png){width=70%}
+
+---
+
+## YAML + Markdown
+
+::: {.columns}
+::: {.column width="50%"}
+![](images/yaml-markdown_input.png)
+:::
+
+::: {.column width="50%"}
+![](images/yaml-markdown_output.png)
+:::
+:::
+
+---
+
+## Jazz it up with CSS
+
+![](images/css_input.png){width=50%}
+
+---
+
+## Inline Code + Code Chunks
+
+::: {.columns}
+::: {.column width="50%"}
+![](images/code-chunks_input.png)
+:::
+
+::: {.column width="50%"}
+![](images/code-chunks_output.png)
+:::
+:::
+
+---
+
+## Quarto Demo on GitHub
+
+![](images/GitHub_Invertocat_Black.png)
+
+---
+
+## {background-color="white"}
+
+::: {style="text-align: center; margin-top: 20%;"}
+![](images/DSAC-Logo-stacked-fullcolor.png){width=30%}
+:::

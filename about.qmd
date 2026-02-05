@@ -1,6 +1,7 @@
 ---
 title: "About This Project"
 subtitle: "Methodology and Technical Details"
+author: "Aaron Chafetz | Digital Service at CMS"
 format:
   html:
     toc: true
@@ -13,15 +14,27 @@ This website serves as a practical demonstration of **Quarto's capabilities** fo
 
 By comparing two versions of the same Medicare enrollment analysis, you can see firsthand how Quarto's features enhance reproducibility, automation, and presentation quality.
 
+### Why This Matters for CMS Analytics
+
+Working with Medicare and Medicaid data requires:
+
+-   **Reproducibility**: Auditable analysis processes
+-   **Automation**: Regular reporting cycles (monthly, quarterly, annual)
+-   **Transparency**: Stakeholders need to understand methodology
+-   **Flexibility**: Multiple output formats for different audiences
+
+Quarto addresses all these needs in a single, open-source framework.
+
 ## Data Source
 
-All analyses use **Medicare monthly enrollment data** from [Data.CMS.gov](https://data.cms.gov), the official open data portal for the Centers for Medicare & Medicaid Services.
+All analyses use public **Medicare monthly enrollment data** from [Data.CMS.gov](https://data.cms.gov), the official open data portal for the Centers for Medicare & Medicaid Services.
 
 This real-world dataset demonstrates how Quarto handles:
-- Large government datasets
-- Time-series analysis
-- Geographic variations
-- Reproducible reporting requirements common in healthcare analytics
+
+-   Large government datasets
+-   Time-series analysis
+-   Geographic variations
+-   Reproducible reporting requirements common in healthcare analytics
 
 ## Technical Implementation
 
@@ -29,22 +42,25 @@ This real-world dataset demonstrates how Quarto handles:
 
 #### 1. YAML Configuration
 The YAML header controls document behavior and appearance:
-- **Dynamic date**: Automatically updates to the render date
-- **Dynamic subtitle**: Can pull from parameters or calculations
-- **Code rendering defaults**: Control whether code is shown or hidden by default
-- **Output formats**: HTML, PDF, Word, presentations, and more
+
+-   **Dynamic date**: Automatically updates to the render date
+-   **Dynamic subtitle**: Can pull from parameters or calculations
+-   **Code rendering defaults**: Control whether code is shown or hidden by default
+-   **Output formats**: HTML, PDF, Word, presentations, and more
 
 #### 2. Code Chunks
 Analyses are written in **R** (though Quarto supports Python, Julia, and Observable):
-- Execute data processing and visualization
-- Generate tables and statistics
-- Create interactive elements
+
+-    Execute data processing and visualization
+-    Generate tables and statistics
+-    Create interactive elements
 
 #### 3. Markdown and Inline Code
 Narrative text integrates seamlessly with code results:
-- Explain methodology and findings
-- Include inline calculations (e.g., "The enrollment increased by `r growth_rate`%")
-- Format professional reports
+
+-    Explain methodology and findings
+-    Include inline calculations (e.g., "The enrollment increased by `r growth_rate`%")
+-    Format professional reports
 
 ### Advanced Features Demonstrated
 
@@ -52,7 +68,88 @@ Narrative text integrates seamlessly with code results:
 In the fancy demo, code is hidden by default but accessible via a "Show code" link in the upper right corner. This keeps the document clean for non-technical readers while maintaining full transparency.
 
 **Implementation:**
-```yaml
+
+```
+yaml
 format:
   html:
     code-fold: true
+```
+
+#### Table of Contents
+
+Automatic navigation based on document headers improves usability for longer reports.
+
+**Implementation:**
+
+```
+format:
+  html:
+    toc: true
+```
+
+#### Custom CSS Styling
+
+External CSS files allow consistent branding across multiple reports without cluttering your Quarto document.
+
+**Implementation:**
+
+```
+format:
+  html:
+    css: styles.css
+```
+
+#### Parameterized Reports
+
+The `params` feature in YAML enables template-based reporting:
+
+**Implementation:**
+
+```r
+params:
+  state: "California"
+  year: 2024
+```
+
+These parameters can be referenced throughout the document and changed programmatically to generate reports for all states, years, or other dimensions automatically.
+
+**Example** use case: Generate 50 state-specific reports with a single command:
+
+```r
+# R code to render for all states
+states <- state.name
+for (state in states) {
+  quarto::quarto_render(
+    "analysis.qmd",
+    execute_params = list(state = state),
+    output_file = paste0("report_", state, ".html")
+  )
+}
+```
+
+
+## Getting Started with Quarto
+
+### Installation
+
+1.   Install Quarto from [quarto.org](https://quarto.org/)
+1.   Use with VS Code, Jupyter, RStudio, Positron, or any text editor
+1.   Render documents with `quarto render` or IDE buttons
+
+### Resources
+
+-   [Quarto Documentation](https://quarto.org/docs/guide/)
+-   [R for Data Science (2e)](https://r4ds.hadley.nz/) - Includes Quarto chapters
+-   [Quarto Gallery](https://quarto.org/docs/gallery/) - Example projects
+
+
+## Repository
+
+This project is hosted on GitHub at [https://github.com/achafetz/dsac_quarto_demo/](https://github.com/achafetz/dsac_quarto_demo/). Feel free to explore the code, fork the repository, or contribute improvements.
+
+---
+
+*All data are public and sourced from [Data.CMS.gov](https://data.cms.gov)*
+
+*Disclaimer: The findings, interpretation, and conclusions expressed herein are those of the authors and do not necessarily reflect the views of Centers for Medicare and Medicaid Services. All errors remain our own.*

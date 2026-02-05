@@ -8,6 +8,8 @@ website:
     left:
       - href: index.qmd
         text: Home
+      - href: presentation.qmd
+        text: Slides
       - href: demo_base.html
         text: Base Demo
       - href: demo_fancy.html
