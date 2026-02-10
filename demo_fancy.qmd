@@ -24,7 +24,7 @@ params:
 # For interactive development only
 if (interactive() && !exists("params")) {
   params <- list(
-    state = "Pennsylvania", 
+    state = "Pennsylvania",
     start_year = 2020,
     end_year = 2024
   )
@@ -83,20 +83,24 @@ We can show important code even if most are not shown by default, using `echo: t
 #| code-fold: true
 
 # function to fetch data from data.cms.gov
-fetch_data <- function(state, year, dataset_uuid, baseurl = "https://data.cms.gov/data-api/v1") {
-  
+fetch_data <- function(state, year, dataset_uuid,
+                       baseurl = "https://data.cms.gov/data-api/v1") {
   endpoint <- str_glue("{baseurl}/dataset/{dataset_uuid}/data")
-  
+  cols <- paste(
+    c("BENE_STATE_DESC", "BENE_STATE_ABRVTN", "BENE_COUNTY_DESC",
+      "BENE_FIPS_CD", "BENE_GEO_LVL", "YEAR", "MONTH", "TOT_BENES"),
+    collapse = ","
+  )
   request(endpoint) |>
     req_url_query(
       `filter[BENE_STATE_ABRVTN]` = state,
       `filter[YEAR]` = year,
       `filter[BENE_GEO_LVL]` = "County",
       `filter[MONTH]` = "Year",
-      column = "BENE_STATE_DESC,BENE_STATE_ABRVTN,BENE_COUNTY_DESC,BENE_FIPS_CD,BENE_GEO_LVL,YEAR,MONTH,TOT_BENES"
+      column = cols
     ) |>
     req_throttle(rate = 2) |>  #max requests/sec
-    req_retry(max_tries = 3) |> 
+    req_retry(max_tries = 3) |>
     req_perform() |>
     resp_body_json()
 
@@ -119,7 +123,11 @@ states <- c("PA", "NY", "CA", "TX", "FL")
 years <- c("2020", "2024")
 
 #form expanded tibble for params to pull
-api_params <- expand_grid(state = states, year = years, dataset_uuid = dataset_uuid)
+api_params <- expand_grid(
+  state = states,
+  year = years,
+  dataset_uuid = dataset_uuid
+)
 
 #local dataset path
 path_data <- "Data/medicare-monthly-enrollment_2025Oct_subset.csv"
@@ -129,35 +137,32 @@ path_data <- "Data/medicare-monthly-enrollment_2025Oct_subset.csv"
 #| label: data_access
 
 #run API if file doesn't already exist
-
-if (!file.exists(path_data)){
-
-    #API pull
-    df_pull <- api_params |> 
-        pmap(
-            possibly(fetch_data, otherwise = NULL),
-            .progress = TRUE
-            ) |> 
+if (!file.exists(path_data)) {
+  #API pull
+  df_pull <- api_params |>
+    pmap(
+      possibly(fetch_data, otherwise = NULL),
+      .progress = TRUE
+    ) |>
     bind_rows()
 
-    #create data folder if it doesn't exist
-    dir.create(dirname(path_data), showWarnings = FALSE)
+  #create data folder if it doesn't exist
+  dir.create(dirname(path_data), showWarnings = FALSE)
 
-    #store data locally
-    write_csv(df_pull, path_data, na = '')
+  #store data locally
+  write_csv(df_pull, path_data, na = "")
 }
-
 ```
 ```{r}
-#| label: read_data 
+#| label: read_data
 
 #read in data
 df <- read_csv(
-    path_data, 
-    col_types = c(year = "i", tot_benes = "i", .default = "c"),
-    na = c("", "NA", "*"),
-    name_repair = tolower
-    )
+  path_data,
+  col_types = c(year = "i", tot_benes = "i", .default = "c"),
+  na = c("", "NA", "*"),
+  name_repair = tolower
+)
 
 ```
 
@@ -175,24 +180,23 @@ Once the data were loaded, we clean them for ease of use and to calculate the gr
 #| label: initial_munge
 
 #subset dataset
-df_lim <- df |> 
-    rename(
-        state = bene_state_desc,
-        state_abbr = bene_state_abrvtn,
-        county = bene_county_desc,
-        county_fips = bene_fips_cd
-        ) |> 
-    filter(
-        state == {params$state},
-        month == "Year",
-        bene_geo_lvl == "County",
-        year %in% c(params$start_year, params$end_year)
-        )
-    
-#limit to cols of interest
-df_lim <- df_lim |> 
-    select(year, state, state_abbr, county, county_fips, tot_benes)
+df_lim <- df |>
+  rename(
+    state = bene_state_desc,
+    state_abbr = bene_state_abrvtn,
+    county = bene_county_desc,
+    county_fips = bene_fips_cd
+  ) |>
+  filter(
+    state == {{params$state}},
+    month == "Year",
+    bene_geo_lvl == "County",
+    year %in% c(params$start_year, params$end_year)
+  )
 
+#limit to cols of interest
+df_lim <- df_lim |>
+  select(year, state, state_abbr, county, county_fips, tot_benes)
 ```
 
 ## Access Spatial Data
@@ -203,13 +207,17 @@ We also brought in spatial data to map the growth rates across the state, levera
 #| label: spatial
 
 # Download county boundaries for your state
-state_counties <- counties(state = unique(df_lim$state_abbr), cb = TRUE, year = max(df_lim$year))
+state_counties <- counties(
+  state = unique(df_lim$state_abbr),
+  cb = TRUE,
+  year = max(df_lim$year)
+)
 
 # Convert to sf object if needed
 state_counties_sf <- st_as_sf(state_counties)
 
 # Ensure FIPS codes match data format
-state_counties_sf <- state_counties_sf %>%
+state_counties_sf <- state_counties_sf |>
   mutate(county_fips = GEOID)
 
 ```
@@ -232,17 +240,19 @@ We calcualted growth rates to identify the counties with the largest growth duri
 #| label: pivot
 
 #reshape
-df_gr <- df_lim |> 
-    mutate(pd = ifelse(year == max(year), "end", "start")) |> 
-    select(-year) |> 
-    pivot_wider(
-        names_from = pd,
-        values_from = tot_benes)
+df_gr <- df_lim |>
+  mutate(pd = ifelse(year == max(year), "end", "start")) |>
+  select(-year) |>
+  pivot_wider(
+    names_from = pd,
+    values_from = tot_benes
+  )
 
-df_gr <- df_gr |> 
-    mutate(
-        gr_pct = (end - start) / start,
-        gr_abs = end - start)
+df_gr <- df_gr |>
+  mutate(
+    gr_pct = (end - start) / start,
+    gr_abs = end - start
+  )
 ```
 
 ## Join Data
@@ -274,24 +284,24 @@ Here is a table (@tbl-growth-rates) of `r params$state`'s largest counties in te
 #| tbl-cap: Counties with the largest growth rates
 #| output: true
 
-df_gr |> 
-    slice_max(order_by = gr_pct, n = 5) |> 
-    select(county, start, end, gr_pct) |> 
-    gt() |>  
-    fmt_number(
-        columns = c(start, end),
-        decimals = 0
-    ) |> 
-    fmt_percent(
-        columns = gr_pct,
-        decimals = 1 
-            ) |> 
-    cols_label(
-        county = "County",
-        start = params$start_year,
-        end = params$end_year,
-        gr_pct = "Growth Rate"
-    ) 
+df_gr |>
+  slice_max(order_by = gr_pct, n = 5) |>
+  select(county, start, end, gr_pct) |>
+  gt() |>
+  fmt_number(
+    columns = c(start, end),
+    decimals = 0
+  ) |>
+  fmt_percent(
+    columns = gr_pct,
+    decimals = 1
+  ) |>
+  cols_label(
+    county = "County",
+    start = 2020,
+    end = 2024,
+    gr_pct = "Growth Rate"
+  )
 
 ```
 
@@ -305,35 +315,40 @@ We can visualize all `r params$state`'s county growth rate data for comparison i
 #| output: true
 #| warnings: false
 
-df_viz |> 
-    ggplot() +
-    geom_sf(aes(fill = gr_pct), color = "white", size = 0.2) +
-    geom_sf_text(
-        data = df_viz |> slice_max(order_by = gr_pct, n = 5),
-        aes(label = county), na.rm = TRUE,
-        ) +
-    scale_fill_gradient2(
-        low = "#af8dc3",
-        mid = "#f7f7f7",
-        high = "#7fbf7b",
-        midpoint = 0,
-        name = "Growth (%)",
-        labels = percent_format(scale = 1)
-    ) +
-    labs(
-        x = NULL, y = NULL,
-        title = "Medicare Beneficiary Growth by County",
-        subtitle = str_glue("{params$state} | Percent change in total enrollment ({params$start_year}-{params$end_year})"),
-        caption = "Source: Medicare Monthly Enrollment Data, Data.CMS.gov"
-    ) +
-    theme_minimal() +
-    theme(
-        plot.title = element_text(face = "bold", size = 16),
-        legend.position = "top",
-        axis.text = element_blank(),
-        axis.ticks = element_blank(),
-        panel.grid = element_blank()
-    )
+subt <- str_glue(
+  "{params$state} | Percent change in total enrollment ",
+  "({params$start_year}-{params$end_year})"
+)
+
+df_viz |>
+  ggplot() +
+  geom_sf(aes(fill = gr_pct), color = "white", size = 0.2) +
+  geom_sf_text(
+    data = df_viz |> slice_max(order_by = gr_pct, n = 5),
+    aes(label = county), na.rm = TRUE,
+  ) +
+  scale_fill_gradient2(
+    low = "#af8dc3",
+    mid = "#f7f7f7",
+    high = "#7fbf7b",
+    midpoint = 0,
+    name = "Growth (%)",
+    labels = percent_format(scale = 1)
+  ) +
+  labs(
+    x = NULL, y = NULL,
+    title = "Medicare Beneficiary Growth by County",
+    subtitle = subt,
+    caption = "Source: Medicare Monthly Enrollment Data, Data.CMS.gov"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 16),
+    legend.position = "top",
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid = element_blank()
+  )
 ```
 
 # PARAMETERIZE
