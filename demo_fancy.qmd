@@ -40,7 +40,7 @@ if (interactive() && !exists("params")) {
 #| warnings: false
 #| echo: false
 library(tidyverse)
-library(httr)
+library(httr2)
 library(sf)
 library(tigris)
 library(scales)

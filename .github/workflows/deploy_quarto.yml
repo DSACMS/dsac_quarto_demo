@@ -47,7 +47,7 @@ jobs:
       - name: Setup renv (Install R Dependencies)
         uses: r-lib/actions/setup-renv@v2
         with:
-          cache-version: 2  # increment this if you need to invalidate cache
+          cache-version: 3  # increment this if you need to invalidate cache
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
