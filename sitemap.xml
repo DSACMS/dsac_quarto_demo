@@ -1,23 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://achafetz.github.io/dsac_quarto_demo/demo_base.html</loc>
-    <lastmod>2026-02-05T02:37:08.589Z</lastmod>
+    <loc>https://DSACMS.github.io/dsac_quarto_demo/SECURITY.html</loc>
+    <lastmod>2026-02-05T21:19:10.174Z</lastmod>
   </url>
   <url>
-    <loc>https://achafetz.github.io/dsac_quarto_demo/index.html</loc>
-    <lastmod>2026-02-05T16:43:00.310Z</lastmod>
+    <loc>https://DSACMS.github.io/dsac_quarto_demo/CONTRIBUTING.html</loc>
+    <lastmod>2026-02-05T21:19:10.173Z</lastmod>
   </url>
   <url>
-    <loc>https://achafetz.github.io/dsac_quarto_demo/demo_fancy.html</loc>
-    <lastmod>2026-02-05T02:37:19.511Z</lastmod>
+    <loc>https://DSACMS.github.io/dsac_quarto_demo/index.html</loc>
+    <lastmod>2026-02-10T16:46:37.548Z</lastmod>
   </url>
   <url>
-    <loc>https://achafetz.github.io/dsac_quarto_demo/slides.html</loc>
-    <lastmod>2026-02-05T17:52:30.556Z</lastmod>
+    <loc>https://DSACMS.github.io/dsac_quarto_demo/COMMUNITY.html</loc>
+    <lastmod>2026-02-05T21:25:53.511Z</lastmod>
   </url>
   <url>
-    <loc>https://achafetz.github.io/dsac_quarto_demo/about.html</loc>
-    <lastmod>2026-02-05T02:34:47.783Z</lastmod>
+    <loc>https://DSACMS.github.io/dsac_quarto_demo/LICENSE.html</loc>
+    <lastmod>2026-02-05T21:52:18.112Z</lastmod>
+  </url>
+  <url>
+    <loc>https://DSACMS.github.io/dsac_quarto_demo/demo_fancy.html</loc>
+    <lastmod>2026-02-10T18:04:57.421Z</lastmod>
+  </url>
+  <url>
+    <loc>https://DSACMS.github.io/dsac_quarto_demo/slides.html</loc>
+    <lastmod>2026-02-10T16:47:01.302Z</lastmod>
+  </url>
+  <url>
+    <loc>https://DSACMS.github.io/dsac_quarto_demo/about.html</loc>
+    <lastmod>2026-02-10T16:46:52.439Z</lastmod>
+  </url>
+  <url>
+    <loc>https://DSACMS.github.io/dsac_quarto_demo/demo_base.html</loc>
+    <lastmod>2026-02-10T18:05:18.841Z</lastmod>
   </url>
 </urlset>
