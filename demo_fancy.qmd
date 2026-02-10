@@ -71,8 +71,16 @@ This demo report renders a document, but Quarto has a number of output options i
 
 This is an **important** annual report where we compare growth in beneficiaries at the county level in `r params$state`. Public data on [monthly Medicare enrollments](https://data.cms.gov/summary-statistics-on-beneficiary-enrollment/medicare-and-medicaid-reports/medicare-monthly-enrollment) were pulled from Data.CMS.gov using the [API](https://data.cms.gov/summary-statistics-on-beneficiary-enrollment/medicare-and-medicaid-reports/medicare-monthly-enrollment/api-docs).
 
+::: {.callout-tip}
+
+We can show important code even if most are not shown by default, using `echo: true` in this code chunk. This chunk also includes `code-fold: true` to that it is accessible, but tucked away.
+
+:::
+
 ```{r}
 #| label: fetch_api
+#| echo: true
+#| code-fold: true
 
 # function to fetch data from data.cms.gov
 fetch_data <- function(state, year, dataset_uuid, baseurl = "https://data.cms.gov/data-api/v1") {
@@ -243,14 +251,11 @@ Before we were able to visualize it, we needed to join the spatial data with the
 
 ::: {.callout-tip}
 
-We can show important code even if most are not shown by default, using `echo: true` in this code chunk.
+This is another example of showing an important code even if most are not shown by default, using `echo: true` in this code chunk.
 
 :::
-
-
 ```{r}
 #| label: merge
-#| echo: true
 
 df_viz <- left_join(state_counties_sf, df_gr, by = "county_fips")
 
