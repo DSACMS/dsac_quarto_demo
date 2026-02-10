@@ -88,24 +88,27 @@ We can show important code even if most are not shown by default, using `echo: t
 # function to fetch data from data.cms.gov
 fetch_data <- function(state, year, dataset_uuid,
                        baseurl = "https://data.cms.gov/data-api/v1") {
-  endpoint <- str_glue("{baseurl}/dataset/{dataset_uuid}/data")
+
+  endpoint <- stringr::str_glue("{baseurl}/dataset/{dataset_uuid}/data")
+
   cols <- paste(
     c("BENE_STATE_DESC", "BENE_STATE_ABRVTN", "BENE_COUNTY_DESC",
       "BENE_FIPS_CD", "BENE_GEO_LVL", "YEAR", "MONTH", "TOT_BENES"),
     collapse = ","
   )
-  request(endpoint) |>
-    req_url_query(
+
+  httr2::request(endpoint) |>
+    httr2::req_url_query(
       `filter[BENE_STATE_ABRVTN]` = state,
       `filter[YEAR]` = year,
       `filter[BENE_GEO_LVL]` = "County",
       `filter[MONTH]` = "Year",
       column = cols
     ) |>
-    req_throttle(rate = 2) |>  #max requests/sec
-    req_retry(max_tries = 3) |>
-    req_perform() |>
-    resp_body_json()
+    httr2::req_throttle(rate = 2) |>  #max requests/sec
+    httr2::req_retry(max_tries = 3) |>
+    httr2::req_perform() |>
+    httr2::resp_body_json()
 
 }
 
