@@ -208,6 +208,7 @@ We also brought in spatial data to map the growth rates across the state, levera
 
 ```{r}
 #| label: spatial
+#| include: false
 
 # Download county boundaries for your state
 state_counties <- counties(
